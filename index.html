@@ -5,37 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardart</title>
     <style>
-        /* Podstawowy styl całej strony */
+        /* Podstawowe style strony */
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1a1a1a, #333333);
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Nagłówek i menu */
+        header {
+            background-color: #111;
+            padding: 1em 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #ff6600;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1em;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff6600;
+        }
+
+        /* Sekcje */
+        section {
+            padding: 4em 2em;
             text-align: center;
         }
 
-        h1 {
-            font-size: 4em;
+        section:nth-child(even) {
+            background-color: #222;
+        }
+
+        h2 {
+            font-size: 2em;
             color: #ff6600;
             margin-bottom: 0.5em;
         }
 
         p {
-            font-size: 1.5em;
-            color: #cccccc;
-            margin-top: 0;
+            font-size: 1.2em;
+            color: #ccc;
+            max-width: 700px;
+            margin: 0 auto 1em;
         }
 
-        /* Prosty efekt przycisku */
+        /* Przyciski */
         .btn {
             display: inline-block;
             padding: 0.7em 1.5em;
-            margin-top: 2em;
+            margin-top: 1em;
             background-color: #ff6600;
             color: #fff;
             text-decoration: none;
@@ -47,11 +80,52 @@
         .btn:hover {
             background-color: #e65c00;
         }
+
+        /* Stopka */
+        footer {
+            text-align: center;
+            padding: 2em;
+            background-color: #111;
+            color: #888;
+        }
+
+        /* Responsywność */
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+        }
     </style>
 </head>
 <body>
+
+<header>
     <h1>Hardart</h1>
-    <p>Witaj na mojej stronie GitHub Pages!</p>
-    <a href="#" class="btn">Dowiedz się więcej</a>
+    <nav>
+        <a href="#about">O stronie</a>
+        <a href="#projects">Projekty</a>
+        <a href="#contact">Kontakt</a>
+    </nav>
+</header>
+
+<section id="about">
+    <h2>O stronie</h2>
+    <p>To jest moja pierwsza strona Hardart na GitHub Pages. Tutaj możesz zobaczyć przykładowe sekcje i menu.</p>
+    <a href="#projects" class="btn">Zobacz projekty</a>
+</section>
+
+<section id="projects">
+    <h2>Projekty</h2>
+    <p>W tej sekcji możesz umieścić informacje o swoich projektach, grafikach lub innych pracach, które chcesz pokazać.</p>
+</section>
+
+<section id="contact">
+    <h2>Kontakt</h2>
+    <p>Dodaj tutaj swoje dane kontaktowe, linki do mediów społecznościowych lub formularz kontaktowy.</p>
+</section>
+
+<footer>
+    &copy; 2026 Hardart – Wszystkie prawa zastrzeżone
+</footer>
+
 </body>
 </html>
