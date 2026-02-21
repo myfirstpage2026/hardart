@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hardart</title>
     <style>
-        /* Podstawowe style strony */
         body {
             margin: 0;
             font-family: 'Arial', sans-serif;
@@ -14,13 +13,13 @@
             line-height: 1.6;
         }
 
-        /* Nagłówek i menu */
         header {
             background-color: #111;
             padding: 1em 0;
             text-align: center;
             position: sticky;
             top: 0;
+            z-index: 100;
         }
 
         header h1 {
@@ -35,16 +34,17 @@
             margin: 0 1em;
             font-weight: bold;
             transition: color 0.3s;
+            cursor: pointer;
         }
 
         nav a:hover {
             color: #ff6600;
         }
 
-        /* Sekcje */
         section {
             padding: 4em 2em;
             text-align: center;
+            position: relative;
         }
 
         section:nth-child(even) {
@@ -64,7 +64,6 @@
             margin: 0 auto 1em;
         }
 
-        /* Przyciski */
         .btn {
             display: inline-block;
             padding: 0.7em 1.5em;
@@ -81,7 +80,6 @@
             background-color: #e65c00;
         }
 
-        /* Stopka */
         footer {
             text-align: center;
             padding: 2em;
@@ -89,7 +87,32 @@
             color: #888;
         }
 
-        /* Responsywność */
+        /* Pełnoekranowe zdjęcie */
+        #luna-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        #luna-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            box-shadow: 0 0 20px #fff;
+        }
+
+        #luna-modal span {
+            position: absolute;
+            top: 20px; right: 40px;
+            font-size: 3em;
+            color: #fff;
+            cursor: pointer;
+        }
+
         @media (max-width: 600px) {
             h1 { font-size: 2em; }
             h2 { font-size: 1.5em; }
@@ -104,18 +127,19 @@
         <a href="#about">O stronie</a>
         <a href="#projects">Projekty</a>
         <a href="#contact">Kontakt</a>
+        <a id="luna-link">LUNA</a>
     </nav>
 </header>
 
 <section id="about">
     <h2>O stronie</h2>
-    <p>To jest moja pierwsza strona Hardart na GitHub Pages. Tutaj możesz zobaczyć przykładowe sekcje i menu.</p>
+    <p>To jest moja pierwsza strona Hardart na GitHub Pages.</p>
     <a href="#projects" class="btn">Zobacz projekty</a>
 </section>
 
 <section id="projects">
     <h2>Projekty</h2>
-    <p>W tej sekcji możesz umieścić informacje o swoich projektach, grafikach lub innych pracach, które chcesz pokazać.</p>
+    <p>W tej sekcji możesz umieścić informacje o swoich projektach, grafikach lub innych pracach.</p>
 </section>
 
 <section id="contact">
@@ -123,9 +147,36 @@
     <p>Dodaj tutaj swoje dane kontaktowe, linki do mediów społecznościowych lub formularz kontaktowy.</p>
 </section>
 
+<!-- Modal do zdjęcia LUNA -->
+<div id="luna-modal">
+    <span id="close">&times;</span>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg" alt="LUNA">
+</div>
+
 <footer>
     &copy; 2026 Hardart – Wszystkie prawa zastrzeżone
 </footer>
+
+<script>
+    const lunaLink = document.getElementById('luna-link');
+    const lunaModal = document.getElementById('luna-modal');
+    const closeBtn = document.getElementById('close');
+
+    lunaLink.addEventListener('click', () => {
+        lunaModal.style.display = 'flex';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        lunaModal.style.display = 'none';
+    });
+
+    // Kliknięcie poza zdjęcie również zamyka modal
+    lunaModal.addEventListener('click', (e) => {
+        if(e.target === lunaModal) {
+            lunaModal.style.display = 'none';
+        }
+    });
+</script>
 
 </body>
 </html>
