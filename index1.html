@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Polski · Zamki, Królowie, Bitwy, Wojny</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1e1a16;
+            background-image: radial-gradient(circle at 30% 40%, #3f352b 0%, #1a1510 100%);
+            font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            color: #f0e7db;
+        }
+
+        .history-wrapper {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(35, 30, 26, 0.85);
+            backdrop-filter: blur(14px);
+            border-radius: 48px;
+            border: 1px solid #b99e7c;
+            box-shadow: 0 30px 60px #0a0806;
+            padding: 30px 25px;
+        }
+
+        /* nagłówek z datą */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2a231d;
+            border-radius: 80px;
+            padding: 15px 35px;
+            margin-bottom: 30px;
+            border: 1px solid #cbb290;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .date-box {
+            font-size: 1.7rem;
+            background: #4d3f33;
+            padding: 10px 40px;
+            border-radius: 60px;
+            border: 1px solid #e1c29d;
+            color: #ffefd3;
+        }
+
+        .time-box {
+            font-size: 2rem;
+            background: #4d3f33;
+            padding: 10px 45px;
+            border-radius: 80px;
+            border: 1px solid #e1c29d;
+            color: #ffefd3;
+            font-family: 'Cinzel', serif;
+        }
+
+        .time-box small {
+            font-size: 1.2rem;
+            margin-left: 12px;
+            color: #e1cbad;
+        }
+
+        /* zakładki główne */
+        .main-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .main-tab {
+            background: #352e26;
+            border: 2px solid #8f775b;
+            padding: 18px 45px;
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'Cinzel', serif;
+            color: #eedbc5;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 0 1 auto;
+            min-width: 200px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .main-tab:hover {
+            background: #5f4f3d;
+            border-color: #dbbc96;
+            transform: translateY(-2px);
+        }
+
+        .main-tab.active {
+            background: #7c644b;
+            border-color: #f5ddbc;
+            color: #fff6e6;
+            box-shadow: 0 0 20px #b49475;
+        }
+
+        /* panele */
+        .content-panels {
+            background: #2f2922e0;
+            border-radius: 36px;
+            padding: 40px 35px;
+            border: 2px solid #b99e7c;
+            min-height: 600px;
+        }
+
+        .panel {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* style wspólne */
+        h1 {
+            font-size: 3.5rem;
+            color: #f5e6d3;
+            border-left: 12px solid #b49475;
+            padding-left: 25px;
+            margin-bottom: 30px;
+            font-family: 'Cinzel', serif;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #dacbb6;
+            margin: 30px 0 20px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .intro-text {
+            font-size: 1.6rem;
+            line-height: 1.6;
+            color: #eadbc7;
+            margin-bottom: 30px;
+        }
+
+        /* siatki */
+        .grid-3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: #3f372ee0;
+            border: 2px solid #b99b78;
+            border-radius: 30px;
+            padding: 25px;
+            flex: 1 1 280px;
+            transition: 0.25s;
+        }
+
+        .card:hover {
+            background: #544b40;
+            border-color: #e8cbaa;
+            transform: scale(1.02);
+        }
+
+        .card h3 {
+            font-size: 2.2rem;
+            color: #ffebd2;
+            border-bottom: 2px dashed #c9ad87;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .card .date {
+            display: inline-block;
+            background: #1e1712;
+            padding: 5px 20px;
+            border-radius: 40px;
+            font-size: 1.3rem;
+            color: #e9d2b8;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 1.5rem;
+            line-height: 1.5;
+            color: #eadbc7;
+        }
+
+        .card .location {
+            font-size: 1.3rem;
+            color: #c4aa88;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        /* lista królów */
+        .kings-list {
+            list-style: none;
+        }
+
+        .kings-list li {
+            font-size: 1.6rem;
+            padding: 15px 0 15px 25px;
+            border-bottom: 1px dashed #7d684f;
+            position: relative;
+        }
+
+        .kings-list li::before {
+            content: "👑";
+            position: absolute;
+            left: -10px;
+            color: #d4a373;
+            font-size: 1.8rem;
+        }
+
+        /* tabela bitew */
+        .battle-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .battle-table th {
+            background: #1e1712;
+            color: #e9d2b8;
+            font-size: 1.6rem;
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #b99b78;
+        }
+
+        .battle-table td {
+            padding: 15px;
+            font-size: 1.5rem;
+            border: 1px solid #7d684f;
+            color: #eadbc7;
+        }
+
+        .battle-table tr:hover {
+            background: #3f372e;
+        }
+
+        /* wojny - rozbudowane */
+        .war-card {
+            background: #2a231d;
+            border-left: 10px solid #b49475;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 20px;
+        }
+
+        .war-card h3 {
+            font-size: 2.2rem;
+            color: #ffebd2;
+            margin-bottom: 15px;
+        }
+
+        .war-card .war-dates {
+            color: #d4a373;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .war-card p {
+            font-size: 1.5rem;
+            color: #eadbc7;
+            line-height: 1.6;
+        }
+
+        .war-card ul {
+            margin-top: 15px;
+            list-style: none;
+        }
+
+        .war-card li {
+            font-size: 1.4rem;
+            padding: 5px 0 5px 20px;
+            color: #c4aa88;
+        }
+
+        .war-card li::before {
+            content: "⚔️";
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px solid #5f4f3c;
+            font-size: 1.5rem;
+            color: #b7a186;
+        }
+
+        @media (max-width: 768px) {
+            .main-tab { font-size: 1.5rem; padding: 12px 25px; min-width: 150px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="history-wrapper">
+        <!-- data i czas -->
+        <div class="header-bar">
+            <div class="date-box" id="currentDate">28 LUTY 2026</div>
+            <div class="time-box" id="currentTime">21:47 <small>minuta</small></div>
+        </div>
+
+        <!-- główne zakładki: ZAMKI, KRÓLOWIE, BITWY, WOJNY -->
+        <div class="main-tabs">
+            <button class="main-tab active" onclick="showPanel('castles')">🏰 ZAMKI</button>
+            <button class="main-tab" onclick="showPanel('kings')">👑 KRÓLOWIE</button>
+            <button class="main-tab" onclick="showPanel('battles')">⚔️ BITWY</button>
+            <button class="main-tab" onclick="showPanel('wars')">📜 WOJNY</button>
+        </div>
+
+        <!-- panele z treścią -->
+        <div class="content-panels">
+            <!-- ========== PANEL ZAMKI ========== -->
+            <div id="castles" class="panel active">
+                <h1>🏰 Zamki Polski</h1>
+                <p class="intro-text">Najpiękniejsze warownie, twierdze i rezydencje – świadkowie naszej historii.</p>
+                
+                <h2>🏰 Zamki królewskie</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Zamek Królewski na Wawelu</h3>
+                        <span class="date">XI-XX w.</span>
+                        <p>Symbol polskiej państwowości, koronacja królów, renesansowy dziedziniec. Jeden z najważniejszych zamków Europy Środkowej.</p>
+                        <div class="location">Kraków</div>
+                    </div>
+                    <div class="card">
+                        <h3>Zamek Królewski w Warszawie</h3>
+                        <span class="date">XIV-XX w.</span>
+                        <p>Odbudowany po zniszczeniach wojennych, siedziba królów i Sejmu Rzeczypospolitej. Kanossa polskiej historii.</p>
+                        <div class="location">Warszawa</div>
+                    </div>
+                    <div class="card">
+                        <h3>Zamek w Malborku</h3>
+                        <span class="date">XIII w.</span>
+                        <p>Największy zamek gotycki na świecie, stolica państwa krzyżackiego, później rezydencja królów polskich.</p>
+                        <div class="location">Malbork</div>
+                    </div>
+                </div>
+
+                <h2>🏰 Zamki na Szlaku Orlich Gniazd</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Zamek w Pieskowej Skale</h3>
+                        <span class="date">XIV w.</span>
+                        <p>Malowniczo położony na Jurze Krakowsko-Częstochowskiej, z charakterystyczną Maczugą Herkulesa.</p>
+                        <div class="location">Ojców</div>
+                    </div>
+                    <div class="card">
+                        <h3>Zamek w Ogrodzieńcu</h3>
+                        <span class="date">XIV-XVI w.</span>
+                        <p>Imponujące ruiny zamku na wzgórzu, jeden z najbardziej znanych zamków Jury.</p>
+                        <div class="location">Podzamcze</div>
+                    </div>
+                    <div class="card">
+                        <h3>Zamek w Bobolicach</h3>
+                        <span class="date">XIV w.</span>
+                        <p>Odbudowany w XX wieku, pięknie prezentuje się na tle jurajskich skał.</p>
+                        <div class="location">Bobolice</div>
+                    </div>
+                </div>
+
+                <h2>🏰 Zamki książęce i magnackie</h2>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Zamek w Książu</h3>
+                        <span class="date">XIII-XX w.</span>
+                        <p>Trzeci co do wielkości zamek w Polsce, perła Dolnego Śląska, z tajemniczymi podziemiami.</p>
+                        <div class="location">Wałbrzych</div>
+                    </div>
+                    <div class="card">
+                        <h3>Zamek w Łańcucie</h3>
+                        <span class="date">XVII-XIX w.</span>
+                        <p>Rezydencja Lubomirskich i Potockich, słynna z kolekcji powozów i przepięknych wnętrz.</p>
+                        <div class="location">Łańcut</div>
+                    </div>
+                    <div class="card">
+                        <h3>Zamek w Mosznej</h3>
+                        <span class="date">XIX w.</span>
+                        <p>Bajkowy zamek z 99 wieżami, neogotycka rezydencja śląskich możnowładców.</p>
+                        <div class="location">Moszna</div>
+                    </div>
+                </div>
+
+                <div class="war-card" style="margin-top: 30px;">
+                    <p style="font-size: 1.5rem;">Łącznie w Polsce znajduje się ponad <strong>500 zamków i warowni</strong>, z czego około 200 zachowało się w dobrym stanie.</p>
+                </div>
+            </div>
+
+            <!-- ========== PANEL KRÓLOWIE ========== -->
+            <div id="kings" class="panel">
+                <h1>👑 Królowie Polski</h1>
+                <p class="intro-text">Władcy, którzy tworzyli historię naszej ojczyzny – od Piastów po Jagiellonów i królów elekcyjnych.</p>
+
+                <h2>👑 Dynastia Piastów</h2>
+                <ul class="kings-list">
+                    <li><strong>Mieszko I</strong> (ok. 960-992) – chrzest Polski, początek państwowości</li>
+                    <li><strong>Bolesław Chrobry</strong> (992-1025) – pierwszy koronowany król, zjazd gnieźnieński</li>
+                    <li><strong>Kazimierz Odnowiciel</strong> (1034-1058) – odbudowa państwa po kryzysie</li>
+                    <li><strong>Bolesław Śmiały</strong> (1058-1079) – konflikt z biskupem Stanisławem</li>
+                    <li><strong>Bolesław Krzywousty</strong> (1102-1138) – testament, rozbicie dzielnicowe</li>
+                    <li><strong>Władysław Łokietek</strong> (1320-1333) – zjednoczenie królestwa</li>
+                    <li><strong>Kazimierz Wielki</strong> (1333-1370) – "zastał Polskę drewnianą, zostawił murowaną"</li>
+                </ul>
+
+                <h2>👑 Dynastia Jagiellonów</h2>
+                <ul class="kings-list">
+                    <li><strong>Władysław Jagiełło</strong> (1386-1434) – zwycięstwo pod Grunwaldem, unia z Litwą</li>
+                    <li><strong>Władysław Warneńczyk</strong> (1434-1444) – zginął pod Warną</li>
+                    <li><strong>Kazimierz Jagiellończyk</strong> (1447-1492) – wojna trzynastoletnia, pokój toruński</li>
+                    <li><strong>Jan Olbracht</strong> (1492-1501) – klęska bukowińska</li>
+                    <li><strong>Aleksander Jagiellończyk</strong> (1501-1506) – Statut Łaskiego</li>
+                    <li><strong>Zygmunt Stary</strong> (1506-1548) – hołd pruski, złoty wiek kultury</li>
+                    <li><strong>Zygmunt August</strong> (1548-1572) – unia lubelska, ostatni Jagiellon</li>
+                </ul>
+
+                <h2>👑 Królowie elekcyjni</h2>
+                <ul class="kings-list">
+                    <li><strong>Henryk Walezy</strong> (1573-1574) – pierwszy elekcyjny, uciekł do Francji</li>
+                    <li><strong>Stefan Batory</strong> (1576-1586) – zwycięstwa nad Moskwą, założenie Uniwersytetu Wileńskiego</li>
+                    <li><strong>Zygmunt III Waza</strong> (1587-1632) – przeniesienie stolicy do Warszawy, wojny ze Szwecją</li>
+                    <li><strong>Władysław IV Waza</strong> (1632-1648) – plany wielkiej wojny z Turcją</li>
+                    <li><strong>Jan Kazimierz</strong> (1648-1668) – potop szwedzki, abdykacja</li>
+                    <li><strong>Michał Korybut Wiśniowiecki</strong> (1669-1673) – panowanie w cieniu konfliktów</li>
+                    <li><strong>Jan III Sobieski</strong> (1674-1696) – odsiecz wiedeńska, pogromca Turków</li>
+                    <li><strong>August II Mocny</strong> (1697-1733) – unia z Saksonią, wojna północna</li>
+                    <li><strong>Stanisław August Poniatowski</strong> (1764-1795) – ostatni król, Konstytucja 3 Maja, rozbiory</li>
+                </ul>
+
+                <div class="war-card" style="margin-top: 30px;">
+                    <p>Łącznie Polską rządziło <strong>46 koronowanych władców</strong> (wliczając książąt i królów).</p>
+                </div>
+            </div>
+
+            <!-- ========== PANEL BITWY ========== -->
+            <div id="battles" class="panel">
+                <h1>⚔️ Wielkie bitwy w historii Polski</h1>
+                <p class="intro-text">Przełomowe starcia, które decydowały o losach narodu.</p>
+
+                <table class="battle-table">
+                    <thead>
+                        <tr>
+                            <th>Bitwa</th>
+                            <th>Data</th>
+                            <th>Przeciwnik</th>
+                            <th>Dowódca polski</th>
+                            <th>Znaczenie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cedynia</strong></td>
+                            <td>972</td>
+                            <td>Niemcy</td>
+                            <td>Mieszko I</td>
+                            <td>Pierwsza historyczna bitwa, obrona granic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Głogów</strong></td>
+                            <td>1109</td>
+                            <td>Niemcy</td>
+                            <td>Bolesław Krzywousty</td>
+                            <td>Bohaterska obrona miasta</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grunwald</strong></td>
+                            <td>1410</td>
+                            <td>Krzyżacy</td>
+                            <td>Władysław Jagiełło</td>
+                            <td>Największa bitwa średniowiecza, potęga zakonu złamana</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Orsza</strong></td>
+                            <td>1514</td>
+                            <td>Moskwa</td>
+                            <td>Konstanty Ostrogski</td>
+                            <td>Genialne zwycięstwo wojsk litewsko-polskich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kłuszyn</strong></td>
+                            <td>1610</td>
+                            <td>Moskwa/Szwecja</td>
+                            <td>Stanisław Żółkiewski</td>
+                            <td>Doszczętna klęska wojsk rosyjskich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Trzciana</strong></td>
+                            <td>1629</td>
+                            <td>Szwecja</td>
+                            <td>Stanisław Koniecpolski</td>
+                            <td>Klęska Gustawa Adolfa, ocalenie Prus Królewskich</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Beresteczko</strong></td>
+                            <td>1651</td>
+                            <td>Kozacy</td>
+                            <td>Jan Kazimierz</td>
+                            <td>Największa bitwa lądowa XVII wieku</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wiedeń</strong></td>
+                            <td>1683</td>
+                            <td>Turcja</td>
+                            <td>Jan III Sobieski</td>
+                            <td>Ocalenie Europy przed islamem</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parkany</strong></td>
+                            <td>1683</td>
+                            <td>Turcja</td>
+                            <td>Jan III Sobieski</td>
+                            <td>Dopełnienie wiktorii wiedeńskiej</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Warszawa</strong></td>
+                            <td>1656</td>
+                            <td>Szwecja/Brandenburgia</td>
+                            <td>Jan Kazimierz</td>
+                            <td>Największa bitwa potopu szwedzkiego</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oliwa</strong></td>
+                            <td>1627</td>
+                            <td>Szwecja</td>
+                            <td>Arend Dickmann</td>
+                            <td>Zwycięstwo polskiej floty</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Siedem bitw</strong></td>
+                            <td>1918-1920</td>
+                            <td>Różni</td>
+                            <td>Wielu</td>
+                            <td>Walki o granice II RP</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="war-card" style="margin-top: 20px;">
+                    <p>Najwięcej bitew stoczono z Krzyżakami, Szwedami, Turkami i Moskwą. Łącznie ponad <strong>200 większych starć</strong> w historii oręża polskiego.</p>
+                </div>
+            </div>
+
+            <!-- ========== PANEL WOJNY ========== -->
+            <div id="wars" class="panel">
+                <h1>📜 Wojny w historii Polski</h1>
+                <p class="intro-text">Konflikty zbrojne, które kształtowały granice i losy narodu.</p>
+
+                <div class="war-card">
+                    <h3>⚔️ Wojny z Krzyżakami</h3>
+                    <div class="war-dates">1308-1521</div>
+                    <p>Cykl konfliktów o Pomorze Gdańskie i ziemię chełmińską. Kulminacją była bitwa pod Grunwaldem (1410) i wojna trzynastoletnia (1454-1466), zakończona pokojem toruńskim i odzyskaniem dostępu do morza.</p>
+                    <ul>
+                        <li>Zajęcie Gdańska przez Krzyżaków (1308)</li>
+                        <li>Wielka wojna (1409-1411)</li>
+                        <li>Wojna głodowa (1414)</li>
+                        <li>Wojna trzynastoletnia (1454-1466)</li>
+                        <li>Wojna popia (1478-1479)</li>
+                    </ul>
+                </div>
+
+                <div class="war-card">
+                    <h3>⚔️ Wojny z Moskwą</h3>
+                    <div class="war-dates">XV-XVII wiek</div>
+                    <p>Serie konfliktów o ziemie ruskie, Inflanty i supremację w Europie Wschodniej. Polska interwencja w czasie "wielkiej smuty" i zajęcie Moskwy (1610-1612).</p>
+                    <ul>
+                        <li>Wojna litewsko-moskiewska (1500-1503)</li>
+                        <li>Wojna 1512-1522 (Orsza)</li>
+                        <li>Wojna 1558-1570 (o Inflanty)</li>
+                        <li>Dymitriady i wojna 1605-1618</li>
+                        <li>Wojna smoleńska (1632-1634)</li>
+                        <li>Wojna 1654-1667 (rozejm andruszowski)</li>
+                    </ul>
+                </div>
+
+                <div class="war-card">
+                    <h3>⚔️ Wojny ze Szwecją</h3>
+                    <div class="war-dates">1563-1721</div>
+                    <p>Konflikty o Inflanty, ujście Wisły i dominium Maris Baltici. Najtragiczniejszy był potop szwedzki (1655-1660), który zrujnował Polskę.</p>
+                    <ul>
+                        <li>Wojna o Inflanty (1600-1629)</li>
+                        <li>Potop szwedzki (1655-1660)</li>
+                        <li>Wielka wojna północna (1700-1721)</li>
+                    </ul>
+                </div>
+
+                <div class="war-card">
+                    <h3>⚔️ Wojny z Turcją i Tatarami</h3>
+                    <div class="war-dates">1620-1699</div>
+                    <p>Walki o wpływy na Bałkanach, Mołdawii i Ukrainie. Chocim (1621 i 1673), Wiedeń (1683) – Polska przedmurzem chrześcijaństwa.</p>
+                    <ul>
+                        <li>Wojna 1620-1621 (Chocim)</li>
+                        <li>Wojna 1672-1676 (Traktat w Żurawnie)</li>
+                        <li>Wojna 1683-1699 (odsiecz wiedeńska, Pokój w Karłowicach)</li>
+                    </ul>
+                </div>
+
+                <div class="war-card">
+                    <h3>⚔️ Powstania narodowe</h3>
+                    <div class="war-dates">1794-1864</div>
+                    <p>Walka o niepodległość w okresie zaborów.</p>
+                    <ul>
+                        <li>Insurekcja kościuszkowska (1794)</li>
+                        <li>Powstanie listopadowe (1830-1831)</li>
+                        <li>Powstanie krakowskie (1846)</li>
+                        <li>Powstanie styczniowe (1863-1864)</li>
+                        <li>Powstanie wielkopolskie (1918-1919)</li>
+                    </ul>
+                </div>
+
+                <div class="war-card">
+                    <h3>⚔️ Wojny XX wieku</h3>
+                    <div class="war-dates">1914-1945</div>
+                    <p>Konflikty o odzyskanie i utrzymanie niepodległości.</p>
+                    <ul>
+                        <li>I wojna światowa (1914-1918)</li>
+                        <li>Wojna polsko-bolszewicka (1919-1921) – "Cud nad Wisłą"</li>
+                        <li>II wojna światowa (1939-1945) – kampania wrześniowa, Westerplatte</li>
+                        <li>Powstanie warszawskie (1944)</li>
+                    </ul>
+                </div>
+
+                <div class="war-card" style="background: #3f372e;">
+                    <p style="font-size: 1.5rem;">Łącznie w swojej historii Polska uczestniczyła w ponad <strong>50 większych wojnach</strong> i konfliktach zbrojnych.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            ⏲️ aktualizacja co minutę · Źródła: Encyklopedia Historii Polski · Muzeum Wojska Polskiego
+        </footer>
+    </div>
+
+    <script>
+        // aktualizacja daty i czasu
+        function updateDateTime() {
+            const now = new Date();
+            const months = ['STYCZEŃ', 'LUTY', 'MARZEC', 'KWIECIEŃ', 'MAJ', 'CZERWIEC', 
+                           'LIPIEC', 'SIERPIEŃ', 'WRZESIEŃ', 'PAŹDZIERNIK', 'LISTOPAD', 'GRUDZIEŃ'];
+            document.getElementById('currentDate').textContent = 
+                `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('currentTime').innerHTML = 
+                `${hours}:${minutes} <small>minuta</small>`;
+        }
+
+        // przełączanie paneli
+        function showPanel(panelId) {
+            // ukryj wszystkie panele
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            // dezaktywuj przyciski
+            document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
+            
+            // pokaż wybrany panel
+            document.getElementById(panelId).classList.add('active');
+            
+            // aktywuj kliknięty przycisk (potrzebne do obsługi zdarzenia)
+            event.target.classList.add('active');
+        }
+
+        // inicjalizacja
+        updateDateTime();
+        setInterval(updateDateTime, 60000);
+
+        // upewnij się, że pierwsza zakładka jest aktywna
+        if (!document.querySelector('.main-tab.active')) {
+            document.querySelector('.main-tab').classList.add('active');
+        }
+    </script>
+</body>
+</html>
